@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" role="img" aria-labelledby="title">
+  <title id="title">Clean Code by Robert C. Martin</title>
+  <defs>
+    <linearGradient id="background" x2="0" y2="1">
+      <stop stop-color="#172b3b"/>
+      <stop offset="1" stop-color="#314f56"/>
+    </linearGradient>
+    <linearGradient id="line" x2="1" y2="0">
+      <stop stop-color="#e9b86e"/>
+      <stop offset="1" stop-color="#f5e2b8"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="600" fill="url(#background)"/>
+  <path d="M48 78h304M48 522h304" stroke="url(#line)" stroke-width="3"/>
+  <path d="m115 190-48 55 48 55m170-110 48 55-48 55m-52-132-64 154" fill="none" stroke="url(#line)" stroke-linecap="round" stroke-linejoin="round" stroke-width="10"/>
+  <text x="200" y="115" text-anchor="middle" fill="#f5e7ca" font-family="Georgia,serif" font-size="19" letter-spacing="5">A HANDBOOK OF</text>
+  <text x="200" y="365" text-anchor="middle" fill="#fff4dc" font-family="Georgia,serif" font-size="43" letter-spacing="4">CLEAN</text>
+  <text x="200" y="416" text-anchor="middle" fill="#fff4dc" font-family="Georgia,serif" font-size="43" letter-spacing="4">CODE</text>
+  <text x="200" y="476" text-anchor="middle" fill="#e9c98f" font-family="Arial,sans-serif" font-size="15" letter-spacing="2">ROBERT C. MARTIN</text>
+</svg>

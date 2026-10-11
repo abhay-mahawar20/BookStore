@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" role="img" aria-labelledby="title">
+  <title id="title">The Name of the Wind by Patrick Rothfuss</title>
+  <defs>
+    <linearGradient id="background" x2="0" y2="1">
+      <stop stop-color="#101c27"/>
+      <stop offset=".55" stop-color="#29404c"/>
+      <stop offset="1" stop-color="#bd8d58"/>
+    </linearGradient>
+    <radialGradient id="light">
+      <stop stop-color="#f3d9a8" stop-opacity=".82"/>
+      <stop offset="1" stop-color="#f3d9a8" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="600" fill="url(#background)"/>
+  <circle cx="205" cy="310" r="160" fill="url(#light)"/>
+  <path d="M0 398c59-42 109-28 160-7 57 23 116 25 240-28v237H0z" fill="#16232a" opacity=".92"/>
+  <path d="M0 449c74-26 127-5 187 12 66 19 131 2 213-23" fill="none" stroke="#c59a65" stroke-width="3" opacity=".75"/>
+  <path d="M200 225c-34 32-41 61-28 91 13 30 11 55-12 85 40-17 59-44 51-76-6-27 2-51 25-76-20 5-28 13-36 22 5-17 5-30 0-46z" fill="#f0d9ac"/>
+  <path d="M126 340c24-9 42-8 62 0m27 5c24-8 43-9 63-2" fill="none" stroke="#f5e5c8" stroke-width="2" opacity=".8"/>
+  <path d="M75 179c52-20 89-21 127-2m-6-28c37 3 76 20 106 44m-193 57c-23 5-40 16-54 33m241-53c23 9 41 24 56 44" fill="none" stroke="#e3c18c" stroke-width="2" opacity=".55"/>
+  <text x="200" y="85" text-anchor="middle" fill="#f2dfbd" font-family="Georgia,serif" font-size="17" letter-spacing="6">A STORY OF MUSIC AND MAGIC</text>
+  <text x="200" y="137" text-anchor="middle" fill="#fff1d5" font-family="Georgia,serif" font-size="34" letter-spacing="2">THE NAME</text>
+  <text x="200" y="179" text-anchor="middle" fill="#fff1d5" font-family="Georgia,serif" font-size="32" letter-spacing="4">OF THE WIND</text>
+  <path d="M88 198h224" stroke="#d3a76b" stroke-width="1"/>
+  <text x="200" y="558" text-anchor="middle" fill="#f5e6cb" font-family="Georgia,serif" font-size="21" letter-spacing="4">PATRICK ROTHFUSS</text>
+</svg>

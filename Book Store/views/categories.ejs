@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f6f5f1">
+    <title><%= currentCategory ? `${currentCategory} Books` : 'Browse Categories' %> | Read Me</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        :root {
+            color-scheme: light;
+            font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            background: #f6f5f1;
+            color: #20251f;
+        }
+
+        body { margin: 0; min-height: 100vh; }
+        .catalog-shell { width: min(1180px, calc(100% - 40px)); margin: 0 auto; }
+        .catalog-hero {
+            position: relative;
+            overflow: hidden;
+            margin-top: 34px;
+            padding: clamp(30px, 6vw, 66px);
+            border-radius: 24px;
+            color: #f8f7f1;
+            background: #253c32;
+        }
+        .catalog-hero::after {
+            position: absolute;
+            right: -54px;
+            bottom: -135px;
+            width: 340px;
+            height: 340px;
+            border: 1px solid rgb(255 255 255 / 13%);
+            border-radius: 50%;
+            box-shadow: 0 0 0 35px rgb(255 255 255 / 4%), 0 0 0 70px rgb(255 255 255 / 3%);
+            content: "";
+        }
+        .eyebrow { margin: 0 0 12px; color: #c8d8c5; font-size: .78rem; font-weight: 750; letter-spacing: .16em; text-transform: uppercase; }
+        .catalog-hero h1 { max-width: 680px; margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 500; line-height: 1.06; }
+        .hero-copy { max-width: 570px; margin: 16px 0 0; color: #dce4db; line-height: 1.7; }
+        .category-section { padding: 36px 0 20px; }
+        .section-heading { display: flex; align-items: end; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+        .section-heading h2 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: 1.8rem; font-weight: 500; }
+        .section-heading p { margin: 6px 0 0; color: #6d746e; font-size: .93rem; }
+        .category-list { display: flex; flex-wrap: wrap; gap: 10px; }
+        .category-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 15px;
+            border: 1px solid #d9ddd5;
+            border-radius: 999px;
+            color: #37453b;
+            background: #fff;
+            font-size: .9rem;
+            font-weight: 650;
+            text-decoration: none;
+            transition: border-color .18s ease, background .18s ease, color .18s ease, transform .18s ease;
+        }
+        .category-link:hover { transform: translateY(-2px); border-color: #42614b; }
+        .category-link[aria-current="page"] { border-color: #253c32; color: #fff; background: #253c32; }
+        .category-count { min-width: 22px; padding: 2px 6px; border-radius: 999px; color: #67716a; background: #edf0eb; font-size: .75rem; text-align: center; }
+        .category-link[aria-current="page"] .category-count { color: #253c32; background: #e4eadf; }
+        .book-section { padding: 22px 0 64px; }
+        .book-toolbar { display: flex; align-items: end; justify-content: space-between; gap: 18px; margin: 0 0 20px; }
+        .book-toolbar h2 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: 1.8rem; font-weight: 500; }
+        .book-toolbar p { margin: 6px 0 0; color: #6d746e; font-size: .9rem; }
+        .toolbar-controls { display: flex; gap: 10px; }
+        .search-wrap { position: relative; }
+        .search-wrap svg { position: absolute; top: 50%; left: 13px; width: 18px; height: 18px; color: #747d75; transform: translateY(-50%); pointer-events: none; }
+        .toolbar-input {
+            min-height: 44px;
+            border: 1px solid #d9ddd5;
+            border-radius: 10px;
+            outline: none;
+            color: #20251f;
+            background: #fff;
+            font: inherit;
+            font-size: .9rem;
+        }
+        .toolbar-input:focus { border-color: #42614b; box-shadow: 0 0 0 3px rgb(66 97 75 / 13%); }
+        .search-input { width: min(280px, 36vw); padding: 0 14px 0 40px; }
+        .sort-select { padding: 0 34px 0 12px; }
+        .book-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; align-items: stretch; }
+        .book-card { display: flex; min-width: 0; flex-direction: column; overflow: hidden; border: 1px solid #e2e5df; border-radius: 14px; background: #fff; box-shadow: 0 2px 8px rgb(34 47 37 / 4%); transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+        .book-card:hover { transform: translateY(-4px); border-color: #c9d2c7; box-shadow: 0 14px 30px rgb(34 47 37 / 12%); }
+        .book-cover { position: relative; display: grid; height: 245px; place-items: center; padding: 20px; background: linear-gradient(145deg, #f3f3ef, #e9ece6); }
+        .book-cover img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 5px 8px rgb(0 0 0 / 12%)); transition: transform .2s ease; }
+        .book-card:hover .book-cover img { transform: scale(1.035); }
+        .book-info { display: flex; flex: 1; flex-direction: column; padding: 17px; }
+        .book-category { align-self: flex-start; max-width: 100%; overflow: hidden; margin: 0 0 11px; padding: 5px 9px; border-radius: 999px; color: #405a45; background: #eef2eb; font-size: .7rem; font-weight: 750; letter-spacing: .06em; text-overflow: ellipsis; text-transform: uppercase; white-space: nowrap; }
+        .book-title { display: -webkit-box; overflow: hidden; min-height: 2.8em; margin: 0; color: #20251f; font-family: Georgia, "Times New Roman", serif; font-size: 1.16rem; font-weight: 600; line-height: 1.4; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+        .book-author { overflow: hidden; margin: 7px 0 14px; color: #727a73; font-size: .88rem; text-overflow: ellipsis; white-space: nowrap; }
+        .book-price { margin: auto 0 14px; padding-top: 14px; color: #253c32; font-size: 1.08rem; font-weight: 750; }
+        .book-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+        .book-action { min-height: 40px; padding: 0 10px; border: 1px solid #253c32; border-radius: 8px; font: inherit; font-size: .82rem; font-weight: 700; cursor: pointer; transition: background .18s ease, color .18s ease, transform .18s ease, box-shadow .18s ease; }
+        .book-action:hover { transform: translateY(-2px); box-shadow: 0 5px 12px rgb(37 60 50 / 15%); }
+        .add-to-cart { color: #fff; background: #253c32; }
+        .add-to-cart:hover { background: #1d3027; }
+        .buy-now { color: #253c32; background: #fff; }
+        .buy-now:hover { color: #fff; background: #526c56; }
+        .cart-summary { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 18px; padding: 13px 16px; border: 1px solid #d9ddd5; border-radius: 10px; background: #fff; }
+        .cart-summary p { margin: 0; color: #465349; font-size: .9rem; }
+        .cart-summary strong { color: #253c32; }
+        .cart-notice { position: fixed; right: 18px; bottom: 18px; z-index: 5; max-width: min(360px, calc(100% - 36px)); padding: 12px 16px; border-radius: 8px; color: #fff; background: #253c32; box-shadow: 0 8px 24px rgb(0 0 0 / 18%); }
+        .cart-notice[hidden] { display: none; }
+        .empty-state { padding: 42px 20px; border: 1px dashed #cfd4ca; border-radius: 16px; color: #69726a; background: rgb(255 255 255 / 55%); text-align: center; }
+        .empty-state h3 { margin: 0 0 7px; color: #293a2e; font-family: Georgia, "Times New Roman", serif; font-size: 1.45rem; font-weight: 500; }
+        .empty-state p { margin: 0; }
+        [hidden] { display: none !important; }
+
+        @media (max-width: 950px) { .book-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+        @media (max-width: 700px) {
+            .catalog-shell { width: min(100% - 28px, 560px); }
+            .catalog-hero { margin-top: 20px; border-radius: 18px; }
+            .book-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+            .book-cover { height: 210px; }
+            .book-info { padding: 14px; }
+            .book-toolbar { align-items: stretch; flex-direction: column; }
+            .toolbar-controls { width: 100%; }
+            .search-wrap { flex: 1; }
+            .search-input { width: 100%; }
+            .sort-select { max-width: 145px; }
+        }
+        @media (max-width: 430px) {
+            .book-grid { grid-template-columns: 1fr; }
+            .book-card { display: grid; grid-template-columns: 118px minmax(0, 1fr); }
+            .book-cover { height: 100%; min-height: 170px; padding: 12px; }
+            .book-title { min-height: auto; }
+            .book-info { align-self: stretch; }
+            .book-actions { grid-template-columns: 1fr; }
+        }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+    </style>
+</head>
+<body>
+    <%- include('includes/nav.ejs') %>
+    <main class="catalog-shell">
+        <header class="catalog-hero">
+            <p class="eyebrow">A good book is waiting</p>
+            <h1><%= currentCategory ? currentCategory : 'Find your next favorite read.' %></h1>
+            <p class="hero-copy">Browse the shelves by category, discover new authors, and find a story worth getting lost in.</p>
+        </header>
+
+        <section class="category-section" aria-labelledby="category-heading">
+            <div class="section-heading">
+                <div>
+                    <h2 id="category-heading">Explore categories</h2>
+                    <p>Pick a shelf to narrow down the collection.</p>
+                </div>
+            </div>
+            <nav class="category-list" aria-label="Book categories">
+                <a class="category-link" href="/category" <%= currentCategory ? '' : 'aria-current="page"' %>>
+                    All books <span class="category-count"><%= totalBookCount %></span>
+                </a>
+                <% categories.forEach(category => { %>
+                    <a class="category-link" href="/category/<%= encodeURIComponent(category) %>" <%= currentCategory === category ? 'aria-current="page"' : '' %>>
+                        <%= category %>
+                        <span class="category-count"><%= categoryCounts[category] || 0 %></span>
+                    </a>
+                <% }) %>
+            </nav>
+        </section>
+
+        <section class="book-section" aria-labelledby="books-heading">
+            <div class="cart-summary" id="cart-summary" hidden aria-live="polite">
+                <p><strong id="cart-count">0</strong> <span id="cart-label">books</span> in your cart</p>
+                <p id="cart-total">₹0.00</p>
+            </div>
+            <div class="book-toolbar">
+                <div>
+                    <h2 id="books-heading"><%= currentCategory ? `${currentCategory} books` : 'All books' %></h2>
+                    <p id="result-count" aria-live="polite"><%= books.length %> <%= books.length === 1 ? 'book' : 'books' %></p>
+                </div>
+                <% if (books.length > 0) { %>
+                    <div class="toolbar-controls">
+                        <label class="search-wrap">
+                            <span class="sr-only">Search books</span>
+                            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="11" cy="11" r="7"></circle>
+                                <path d="m20 20-4-4"></path>
+                            </svg>
+                            <input class="toolbar-input search-input" id="book-search" type="search" placeholder="Search title or author" autocomplete="off">
+                        </label>
+                        <label>
+                            <span class="sr-only">Sort books</span>
+                            <select class="toolbar-input sort-select" id="book-sort">
+                                <option value="featured">Featured</option>
+                                <option value="title">Title A–Z</option>
+                                <option value="author">Author A–Z</option>
+                                <option value="price-asc">Price: low to high</option>
+                                <option value="price-desc">Price: high to low</option>
+                            </select>
+                        </label>
+                    </div>
+                <% } %>
+            </div>
+
+            <% if (!books || books.length === 0) { %>
+                <div class="empty-state">
+                    <h3><%= currentCategory ? 'No books on this shelf yet' : 'The shelves are waiting' %></h3>
+                    <p><%= currentCategory ? 'Try another category to find something to read.' : 'There are no books available right now. Please check back soon.' %></p>
+                </div>
+            <% } else { %>
+                <div class="book-grid" id="book-grid">
+                    <% books.forEach((book, index) => { %>
+                        <% const imageSrc = book.img ? (book.img.startsWith('/') ? book.img : '/' + book.img) : '/default-book-cover.svg'; %>
+                        <article
+                            class="book-card"
+                            data-title="<%= book.title %>"
+                            data-author="<%= book.author %>"
+                            data-price="<%= Number(book.price || 0) %>"
+                            data-order="<%= index %>">
+                            <div class="book-cover">
+                                <img src="<%= imageSrc %>" alt="Cover of <%= book.title %>" loading="lazy">
+                            </div>
+                            <div class="book-info">
+                                <p class="book-category"><%= book.category || 'Uncategorized' %></p>
+                                <h3 class="book-title"><%= book.title %></h3>
+                                <p class="book-author">by <%= book.author %></p>
+                                <p class="book-price">₹<%= Number(book.price || 0).toFixed(2) %></p>
+                                <div class="book-actions">
+                                    <button class="book-action add-to-cart" type="button" data-add-to-cart
+                                        data-id="<%= book._id %>"
+                                        data-title="<%= book.title %>"
+                                        data-author="<%= book.author %>"
+                                        data-category="<%= book.category || 'Uncategorized' %>"
+                                        data-price="<%= Number(book.price || 0) %>">Add to Cart</button>
+                                    <button class="book-action buy-now" type="button" data-buy-now>Buy Now</button>
+                                </div>
+                            </div>
+                        </article>
+                    <% }) %>
+                </div>
+                <div class="empty-state" id="no-search-results" hidden>
+                    <h3>No matching books</h3>
+                    <p>Try a different title or author, or clear your search.</p>
+                </div>
+            <% } %>
+        </section>
+    </main>
+    <%- include('includes/footer.ejs') %>
+    <div class="cart-notice" id="cart-notice" role="status" aria-live="polite" hidden></div>
+    <script>
+        (() => {
+            const grid = document.getElementById('book-grid');
+            const searchInput = document.getElementById('book-search');
+            const sortSelect = document.getElementById('book-sort');
+            const resultCount = document.getElementById('result-count');
+            const noResults = document.getElementById('no-search-results');
+            const cartSummary = document.getElementById('cart-summary');
+            const notice = document.getElementById('cart-notice');
+            let cart = [];
+            let noticeTimer;
+
+            try {
+                const savedCart = JSON.parse(localStorage.getItem('read-me-cart') || '[]');
+                if (Array.isArray(savedCart)) cart = savedCart;
+            } catch (error) {
+                console.error('Unable to read the saved cart.', error);
+                showNotice('Your saved cart could not be loaded.');
+            }
+
+            function showNotice(message) {
+                notice.textContent = message;
+                notice.hidden = false;
+                clearTimeout(noticeTimer);
+                noticeTimer = setTimeout(() => { notice.hidden = true; }, 2800);
+            }
+
+            function updateCartSummary() {
+                const itemCount = cart.reduce((total, item) => total + (Number(item.quantity) || 0), 0);
+                const total = cart.reduce((sum, item) => sum + (Number(item.price) || 0) * (Number(item.quantity) || 0), 0);
+                document.getElementById('cart-count').textContent = String(itemCount);
+                document.getElementById('cart-label').textContent = itemCount === 1 ? 'book' : 'books';
+                document.getElementById('cart-total').textContent = `₹${total.toFixed(2)}`;
+                cartSummary.hidden = itemCount === 0;
+            }
+
+            function saveCart() {
+                try {
+                    localStorage.setItem('read-me-cart', JSON.stringify(cart));
+                    updateCartSummary();
+                } catch (error) {
+                    console.error('Unable to save the cart.', error);
+                    showNotice('Cart could not be saved in this browser.');
+                }
+            }
+
+            document.querySelectorAll('[data-add-to-cart]').forEach(button => {
+                button.addEventListener('click', () => {
+                    const book = {
+                        id: button.dataset.id,
+                        title: button.dataset.title,
+                        author: button.dataset.author,
+                        category: button.dataset.category,
+                        price: Number(button.dataset.price)
+                    };
+                    const existing = cart.find(item => item.id === book.id);
+                    if (existing) existing.quantity = (Number(existing.quantity) || 1) + 1;
+                    else cart.push({ ...book, quantity: 1 });
+                    saveCart();
+                    showNotice(`${book.title} added to your cart.`);
+                });
+            });
+
+            document.querySelectorAll('[data-buy-now]').forEach(button => {
+                button.addEventListener('click', () => showNotice('Online checkout is not available yet.'));
+            });
+
+            if (grid) {
+                const cards = [...grid.querySelectorAll('.book-card')];
+                function updateBooks() {
+                    const query = searchInput.value.trim().toLocaleLowerCase();
+                    const sortBy = sortSelect.value;
+                    const sortedCards = [...cards].sort((first, second) => {
+                        if (sortBy === 'title' || sortBy === 'author') {
+                            return first.dataset[sortBy].localeCompare(second.dataset[sortBy]);
+                        }
+                        if (sortBy === 'price-asc') return Number(first.dataset.price) - Number(second.dataset.price);
+                        if (sortBy === 'price-desc') return Number(second.dataset.price) - Number(first.dataset.price);
+                        return Number(first.dataset.order) - Number(second.dataset.order);
+                    });
+
+                    let visibleCount = 0;
+                    sortedCards.forEach(card => {
+                        const matches = `${card.dataset.title} ${card.dataset.author}`.toLocaleLowerCase().includes(query);
+                        card.hidden = !matches;
+                        grid.appendChild(card);
+                        if (matches) visibleCount += 1;
+                    });
+
+                    resultCount.textContent = `${visibleCount} ${visibleCount === 1 ? 'book' : 'books'}`;
+                    noResults.hidden = visibleCount !== 0;
+                    grid.hidden = visibleCount === 0;
+                }
+
+                searchInput.addEventListener('input', updateBooks);
+                sortSelect.addEventListener('change', updateBooks);
+                grid.querySelectorAll('img').forEach(image => {
+                    image.addEventListener('error', () => {
+                        if (image.getAttribute('src') !== '/default-book-cover.svg') {
+                            image.src = '/default-book-cover.svg';
+                        }
+                    }, { once: true });
+                });
+            }
+            updateCartSummary();
+        })();
+    </script>
+</body>
+</html>

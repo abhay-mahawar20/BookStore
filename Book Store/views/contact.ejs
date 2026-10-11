@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#f7f7f5">
+    <title>Contact | Book World</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            color: #26332a;
+            background: #f7f7f5;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        .contact-page { width: min(680px, calc(100% - 32px)); margin: 48px auto 64px; }
+        .contact-heading { margin-bottom: 22px; }
+        .contact-heading p { margin: 0 0 8px; color: #59725e; font-size: .8rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; }
+        .contact-heading h1 { margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2rem, 5vw, 2.7rem); font-weight: 500; }
+        .contact-heading .intro { max-width: 520px; margin: 12px 0 0; color: #626b64; line-height: 1.65; }
+        .contact-form { display: grid; gap: 18px; padding: clamp(20px, 5vw, 32px); border: 1px solid #e3e6df; border-radius: 10px; background: #fff; }
+        .form-field { display: grid; gap: 7px; }
+        .form-field label { color: #303d33; font-size: .92rem; font-weight: 700; }
+        .form-field input, .form-field textarea {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #d9ded8;
+            border-radius: 6px;
+            outline: none;
+            color: #26332a;
+            background: #fff;
+            font: inherit;
+            font-size: .95rem;
+        }
+        .form-field textarea { min-height: 140px; resize: vertical; }
+        .form-field input:focus, .form-field textarea:focus { border-color: #59725e; box-shadow: 0 0 0 3px rgb(89 114 94 / 13%); }
+        .message-count { margin: 0; color: #747d75; font-size: .82rem; text-align: right; }
+        .submit-button {
+            justify-self: start;
+            min-height: 44px;
+            padding: 0 18px;
+            border: 1px solid #314c37;
+            border-radius: 6px;
+            color: #fff;
+            background: #314c37;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background .18s ease, transform .18s ease;
+        }
+        .submit-button:hover { transform: translateY(-1px); background: #243b2a; }
+        .submit-button:disabled { opacity: .7; cursor: wait; transform: none; }
+        @media (max-width: 520px) {
+            .contact-page { margin-top: 30px; }
+            .contact-form { gap: 15px; }
+            .submit-button { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <%- include('includes/nav.ejs') %>
+    <main class="contact-page">
+        <header class="contact-heading">
+            <p>Get in touch</p>
+            <h1>Contact Book World</h1>
+            <p class="intro">Have a question or feedback? Send us a message and we’ll be happy to hear from you.</p>
+        </header>
+        <form class="contact-form" action="/contact" method="POST">
+            <div class="form-field">
+                <label for="contact-name">Name</label>
+                <input id="contact-name" type="text" name="name" autocomplete="name" required>
+            </div>
+            <div class="form-field">
+                <label for="contact-email">Email</label>
+                <input id="contact-email" type="email" name="email" autocomplete="email" required>
+            </div>
+            <div class="form-field">
+                <label for="contact-phone">Phone</label>
+                <input id="contact-phone" type="tel" name="phone" autocomplete="tel" required>
+            </div>
+            <div class="form-field">
+                <label for="contact-message">Message</label>
+                <textarea id="contact-message" name="message" rows="5" required></textarea>
+                <p class="message-count" id="message-count" aria-live="polite">0 characters</p>
+            </div>
+            <button class="submit-button" id="submit-button" type="submit">Send message</button>
+        </form>
+    </main>
+    <%- include('includes/footer.ejs') %>
+    <script>
+        const contactForm = document.querySelector('.contact-form');
+        const messageInput = document.getElementById('contact-message');
+        const messageCount = document.getElementById('message-count');
+        const submitButton = document.getElementById('submit-button');
+
+        messageInput.addEventListener('input', () => {
+            const count = messageInput.value.length;
+            messageCount.textContent = `${count} ${count === 1 ? 'character' : 'characters'}`;
+        });
+
+        contactForm.addEventListener('submit', () => {
+            submitButton.disabled = true;
+            submitButton.textContent = 'Sending…';
+        });
+    </script>
+</body>
+</html>

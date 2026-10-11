@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" role="img" aria-labelledby="title">
+  <title id="title">The Way of Kings by Brandon Sanderson</title>
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1">
+      <stop stop-color="#193449"/>
+      <stop offset=".55" stop-color="#628095"/>
+      <stop offset="1" stop-color="#d8b882"/>
+    </linearGradient>
+    <linearGradient id="blade" x2="1" y2="1">
+      <stop stop-color="#f7f1d8"/>
+      <stop offset=".45" stop-color="#a9c0c1"/>
+      <stop offset="1" stop-color="#f4d694"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="600" fill="url(#sky)"/>
+  <circle cx="294" cy="235" r="98" fill="#f7e2b5" opacity=".16"/>
+  <path d="M0 375 47 336l38 28 51-86 44 67 57-112 52 81 51-70 60 83v273H0z" fill="#3a596b"/>
+  <path d="M0 445 65 387l53 46 69-90 57 67 66-73 90 90v173H0z" fill="#1c303b"/>
+  <path d="m200 211 28 144-28 110-28-110z" fill="url(#blade)" stroke="#fff0c6" stroke-width="3"/>
+  <path d="M139 348h122v16H139z" fill="#d3ad6f"/>
+  <path d="M188 364h24v99h-24z" fill="#273842"/>
+  <path d="m188 454 12 30 12-30z" fill="#d3ad6f"/>
+  <path d="M45 497c39-12 70-11 107 0m96 0c37-12 68-12 107 0" fill="none" stroke="#e0bf83" stroke-width="3" opacity=".75"/>
+  <text x="200" y="76" text-anchor="middle" fill="#f3e2c2" font-family="Georgia,serif" font-size="18" letter-spacing="6">THE STORMLIGHT ARCHIVE</text>
+  <text x="200" y="126" text-anchor="middle" fill="#fff2d6" font-family="Georgia,serif" font-size="35" letter-spacing="4">THE WAY</text>
+  <text x="200" y="169" text-anchor="middle" fill="#fff2d6" font-family="Georgia,serif" font-size="32" letter-spacing="5">OF KINGS</text>
+  <path d="M82 190h236" stroke="#e2c18c" stroke-width="1"/>
+  <text x="200" y="561" text-anchor="middle" fill="#f8e9ca" font-family="Georgia,serif" font-size="20" letter-spacing="4">BRANDON SANDERSON</text>
+</svg>

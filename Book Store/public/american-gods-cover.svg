@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" role="img" aria-labelledby="title">
+  <title id="title">American Gods by Neil Gaiman</title>
+  <defs>
+    <linearGradient id="sky" x2="0" y2="1">
+      <stop stop-color="#172633"/>
+      <stop offset=".55" stop-color="#6c493c"/>
+      <stop offset="1" stop-color="#d29a5e"/>
+    </linearGradient>
+    <radialGradient id="moon">
+      <stop stop-color="#f4d99e" stop-opacity=".9"/>
+      <stop offset="1" stop-color="#f4d99e" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="600" fill="url(#sky)"/>
+  <circle cx="285" cy="190" r="125" fill="url(#moon)"/>
+  <circle cx="285" cy="190" r="53" fill="#ead8ad" opacity=".88"/>
+  <path d="M0 350 92 260l54 58 75-105 58 80 62-67 59 55v319H0z" fill="#29353a"/>
+  <path d="M0 410 85 335l65 58 78-80 77 83 51-53 44 39v218H0z" fill="#172329"/>
+  <path d="M200 600V393m0 41-57-45m57 70 68-56m-68 95-84-34m84 68 84-41" fill="none" stroke="#d19b5c" stroke-width="5" opacity=".8"/>
+  <path d="M175 600h50l-8-135h-34z" fill="#1b2529"/>
+  <text x="200" y="92" text-anchor="middle" fill="#f3dfb6" font-family="Georgia,serif" font-size="19" letter-spacing="7">A NOVEL</text>
+  <text x="200" y="145" text-anchor="middle" fill="#fff3d8" font-family="Georgia,serif" font-size="39" letter-spacing="3">AMERICAN</text>
+  <text x="200" y="190" text-anchor="middle" fill="#fff3d8" font-family="Georgia,serif" font-size="48" letter-spacing="5">GODS</text>
+  <path d="M95 214h210" stroke="#e1b777" stroke-width="1"/>
+  <text x="200" y="555" text-anchor="middle" fill="#f7e9ce" font-family="Georgia,serif" font-size="24" letter-spacing="5">NEIL GAIMAN</text>
+</svg>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Book | Book Store</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body>
+    <%- include('includes/nav.ejs') %>
+    <h1 class="text-2xl">Add New Book Page</h1>
+    <form action="/books" method="POST" enctype="multipart/form-data">
+
+    <label>Book Title</label>
+    <input type="text" name="title" style="border: 1px solid black;">
+
+    <br><br>
+
+    <label>Author</label>
+    <input type="text" name="author" style="border: 1px solid black;">
+
+    <br><br>
+
+    <label>Price</label>
+    <input type="number" name="price" style="border: 1px solid black;">
+
+    <br><br>
+
+    <label>Category</label>
+    <input type="text" name="category" style="border: 1px solid black;">
+
+    <br><br>
+
+    <label>Image</label>
+    <input type="file" name="img" style="border: 1px solid black;">
+
+    <br><br>
+
+    <button type="submit">Add Book</button>
+
+</form>
+
+    <%-include('includes/footer.ejs')  %>
+</body>
+</html>
